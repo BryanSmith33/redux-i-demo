@@ -1,68 +1,46 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Redux I
 
-## Available Scripts
+Redux is a tool that will remoe our state from components and into one single source of truth that is unrelated to any components. We can set components up to listen to changes and view those actions from those changes insde of what we call a store.
 
-In the project directory, you can run:
+## Store
 
-### `npm start`
+You can think of the store as your single source of truth. This is where we will keep all of our data that we want to share between components.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```js
+import { createStore } from 'redux'
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+// SOME JSX
 
-### `npm test`
+export default createStore(reducerFunc)
+```
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Initial State
 
-### `npm run build`
+We generally will set up an initial state which will be our base values for our application.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Action Types
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+We will declare action types, or events that will fire our reducer function. These should be written in all caps and as constants. The reason for this is that it will catch more errors. If we try to fire an action called `UPDATE_USER` but accidentally type `UPDAT_USER`, it won't crash the app and we will get an warning that it isn't sure what `UPDAT_USER` is.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Reducer
 
-### `npm run eject`
+A reduce is simply a function that takes in two items; 1: a state which we generally set to our default state and 2: an action we can switch on.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```js
+  switch(action.type){
+    case CASE_1:
+      return {...}
+    case CASE_1:
+      return {...}
+    default:
+      return state
+  }
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Subscribe
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+We can have each comonent we want to know about redux subscribe to the entire store. This means that it can get data as it is updated from our initial state
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Dispatch
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+We can have our components dispatch action to trigger chanes in our reduce and update our state.
